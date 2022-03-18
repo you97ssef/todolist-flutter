@@ -7,8 +7,8 @@ import 'package:todolist/models/task.dart';
 import 'package:todolist/screens/one_task.dart';
 
 class TaskMaster extends StatefulWidget {
-  const TaskMaster({Key? key, /*required this.tasks*/}) : super(key: key);
-  // final List<Task> tasks;
+  const TaskMaster({Key? key, required this.tasks}) : super(key: key);
+  final List<Task> tasks;
 
   @override
   State<TaskMaster> createState() => _TaskMasterState();
@@ -85,16 +85,15 @@ class _TaskMasterState extends State<TaskMaster> {
 
   @override
   Widget build(BuildContext context) {
-    var tasks = Provider.of<TasksCollection>(context, listen: false).tasks;
     return Column(
       children: <Widget>[
         _showDetailsWhenProductIsSelected(),
         Expanded(
           child: ListView.builder(
-            itemCount: tasks.length,
+            itemCount: widget.tasks.length,
             itemBuilder: (context, index) {
               return TaskPreview(
-                task: tasks[index],
+                task: widget.tasks[index],
                 taskPressed: _selectedDetails,
               );
             },

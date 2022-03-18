@@ -35,23 +35,23 @@ class _AllTasksState extends State<AllTasks> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<TasksCollection>(builder: (context, taskCollection, _) {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            widget.title,
-            style: const TextStyle(fontFamily: 'ShadowsIntroLight'),
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          widget.title,
+          style: const TextStyle(fontFamily: 'ShadowsIntroLight'),
         ),
-        body: const TaskMaster(),
-        floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Navigator.pushNamed(context, CreateTask.route)
-                  .then((_) => setState(() {}));
-            },
-            backgroundColor: Colors.red[900],
-            child: const Icon(Icons.add)),
-      );
-    });
+      ),
+      body: Consumer<TasksCollection>(builder: (context, taskCollection, _) {
+        return TaskMaster(tasks: taskCollection.tasks);
+      }),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushNamed(context, CreateTask.route)
+                .then((_) => setState(() {}));
+          },
+          backgroundColor: Colors.red[900],
+          child: const Icon(Icons.add)),
+    );
   }
 }

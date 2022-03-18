@@ -4,21 +4,29 @@ import 'package:todolist/components/tasks/task_form.dart';
 import 'package:todolist/data/tasks_collection.dart';
 import 'package:todolist/models/task.dart';
 
-class CreateTask extends StatelessWidget {
+class CreateTask extends StatefulWidget {
   const CreateTask({Key? key}) : super(key: key);
 
   static String route = '/create_task';
 
+  @override
+  _CreateTaskState createState() => _CreateTaskState();
+}
+
+class _CreateTaskState extends State<CreateTask> {
   void _addTask(String content, BuildContext context) {
-    Task newTask = Task(1, content, false, DateTime.now());
+    setState(() {
+      Task newTask = Task(context.read<TasksCollection>().tasks.length + 1,
+          content, false, DateTime.now());
 
-    Provider.of<TasksCollection>(context, listen: false).create(newTask);
+      context.read<TasksCollection>().create(newTask);
 
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text("Task created!"),
-    ));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Task created!"),
+      ));
 
-    Navigator.pop(context);
+      Navigator.pop(context);
+    });
   }
 
   @override
@@ -26,7 +34,7 @@ class CreateTask extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Update Task",
+          "New Task",
           style: TextStyle(fontFamily: 'ShadowsIntroLight'),
         ),
       ),
