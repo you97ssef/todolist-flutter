@@ -42,9 +42,27 @@ class _AllTasksState extends State<AllTasks> {
           style: const TextStyle(fontFamily: 'ShadowsIntroLight'),
         ),
       ),
-      body: Consumer<TasksCollection>(builder: (context, taskCollection, _) {
-        return TaskMaster(tasks: taskCollection.tasks);
-      }),
+      body: FutureBuilder(
+          future: TasksCollection.getTasksFromApi(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              return Consumer<TasksCollection>(
+                  builder: (context, taskCollection, _) {
+                taskCollection.fileTasks(snapshot.data);
+                return TaskMaster(tasks: taskCollection.tasks);
+              });
+            } else {
+              return Center(
+                child: SizedBox(
+                  width: 60,
+                  height: 60,
+                  child: CircularProgressIndicator(
+                    color: Colors.red[900],
+                  ),
+                ),
+              );
+            }
+          }),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.pushNamed(context, CreateTask.route)

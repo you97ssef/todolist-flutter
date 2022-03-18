@@ -3,8 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:todolist/models/task.dart';
 
 class TasksCollection extends ChangeNotifier {
-  final List<Task> tasks;
-  TasksCollection({required this.tasks});
+  late List<Task> tasks;
+  TasksCollection(/*{required this.tasks}*/);
+
+  fileTasks(List<Task> tasksFromApi){
+    tasks = tasksFromApi;
+  }
 
   create(Task newTask) {
     tasks.add(newTask);
