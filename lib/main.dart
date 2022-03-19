@@ -12,7 +12,7 @@ main() {
   
   runApp(
     ChangeNotifierProvider(
-      create: (context) => TasksCollection(/*tasks: tasks*/),
+      create: (context) => TasksCollection(tasks: []),
       // child: TodoList(tasks: tasks),
       child: const TodoList(/*tasks: tasks*/),
     ),

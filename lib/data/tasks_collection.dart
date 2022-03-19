@@ -3,12 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:todolist/models/task.dart';
 
 class TasksCollection extends ChangeNotifier {
-  late List<Task> tasks;
-  TasksCollection(/*{required this.tasks}*/);
-
-  fileTasks(List<Task> tasksFromApi){
-    tasks = tasksFromApi;
-  }
+  final List<Task> tasks;
+  bool gotApiData = false;
+  
+  TasksCollection({required this.tasks});
 
   create(Task newTask) {
     tasks.add(newTask);
@@ -29,14 +27,14 @@ class TasksCollection extends ChangeNotifier {
     notifyListeners();
   }
 
-  static getTasksFromApi() async {
+  getTasksFromApi() async {
     var todos = await Dio().get("https://jsonplaceholder.typicode.com/todos");
-
-    List<Task> tasks = [];
 
     for (var todo in todos.data) {
       tasks.add(Task.fromJson(todo));
     }
+
+    gotApiData = true;
 
     return tasks;
   }

@@ -89,15 +89,17 @@ class _TaskMasterState extends State<TaskMaster> {
       children: <Widget>[
         _showDetailsWhenProductIsSelected(),
         Expanded(
-          child: ListView.builder(
-            itemCount: widget.tasks.length,
-            itemBuilder: (context, index) {
-              return TaskPreview(
-                task: widget.tasks[index],
-                taskPressed: _selectedDetails,
-              );
-            },
-          ),
+          child: Consumer<TasksCollection>(builder: (context, taskCollection, _) {
+            return ListView.builder(
+              itemCount: widget.tasks.length,
+              itemBuilder: (context, index) {
+                return TaskPreview(
+                  task: widget.tasks[index],
+                  taskPressed: _selectedDetails,
+                );
+              },
+            );
+          }),
         ),
       ],
     );

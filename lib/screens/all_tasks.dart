@@ -33,6 +33,30 @@ class _AllTasksState extends State<AllTasks> {
 
   TaskMaster? tasksViewer;
 
+  showTasks() {
+    if(context.read<TasksCollection>().gotApiData){
+      return TaskMaster(tasks: context.read<TasksCollection>().tasks);
+    }
+
+    return FutureBuilder(
+            future: context.read<TasksCollection>().getTasksFromApi(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                return TaskMaster(tasks: snapshot.data);
+              } else {
+                return Center(
+                  child: SizedBox(
+                    width: 60,
+                    height: 60,
+                    child: CircularProgressIndicator(
+                      color: Colors.red[900],
+                    ),
+                  ),
+                );
+              }
+            });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,27 +66,7 @@ class _AllTasksState extends State<AllTasks> {
           style: const TextStyle(fontFamily: 'ShadowsIntroLight'),
         ),
       ),
-      body: FutureBuilder(
-          future: TasksCollection.getTasksFromApi(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              return Consumer<TasksCollection>(
-                  builder: (context, taskCollection, _) {
-                taskCollection.fileTasks(snapshot.data);
-                return TaskMaster(tasks: taskCollection.tasks);
-              });
-            } else {
-              return Center(
-                child: SizedBox(
-                  width: 60,
-                  height: 60,
-                  child: CircularProgressIndicator(
-                    color: Colors.red[900],
-                  ),
-                ),
-              );
-            }
-          }),
+      body: showTasks(),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.pushNamed(context, CreateTask.route)
