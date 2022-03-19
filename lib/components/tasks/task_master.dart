@@ -23,14 +23,15 @@ class _TaskMasterState extends State<TaskMaster> {
       content: Text(questionMessage),
       action: SnackBarAction(
         label: "Confirm",
-        onPressed: () {
-          toDoAction();
-          setState(() {
-            selectedTask = null;
-          });
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(doneMessage),
-          ));
+        onPressed: () async {
+          if (await toDoAction()) {
+            setState(() {
+              selectedTask = null;
+            });
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(doneMessage),
+            ));
+          }
         },
       ),
     );
@@ -65,10 +66,10 @@ class _TaskMasterState extends State<TaskMaster> {
   }
 
   void _deleteSelecetd() {
-    _showSnackBar("Delete Task ?", "Task deleted!", () {
+    _showSnackBar("Delete Task ?", "Task deleted!", () async {
       // widget.tasks.remove(selectedTask);
       // Provider.of<TasksCollection>(context, listen: false).delete(selectedTask);
-      context.read<TasksCollection>().delete(selectedTask);
+      return await context.read<TasksCollection>().delete(selectedTask!);
     });
   }
 
@@ -89,7 +90,8 @@ class _TaskMasterState extends State<TaskMaster> {
       children: <Widget>[
         _showDetailsWhenProductIsSelected(),
         Expanded(
-          child: Consumer<TasksCollection>(builder: (context, taskCollection, _) {
+          child:
+              Consumer<TasksCollection>(builder: (context, taskCollection, _) {
             return ListView.builder(
               itemCount: widget.tasks.length,
               itemBuilder: (context, index) {

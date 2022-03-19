@@ -1,5 +1,5 @@
 class Task {
-  int? id;
+  int id;
   String content = "";
   bool completed;
   DateTime? createdAt;

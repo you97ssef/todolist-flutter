@@ -22,14 +22,32 @@ class _OneTaskState extends State<OneTask> {
     super.initState();
   }
 
-  void _updateTask(Task taskToUpdate, String content) {
-    setState(() {
-      // task.content = content;
-
-      context.read<TasksCollection>().update(taskToUpdate, content);
-
-      // Provider.of<TasksCollection>(context, listen: false).update(taskToUpdate, content);
-    });
+  void _updateTask(int id, String content, bool completed) async {
+    if (await context.read<TasksCollection>().update(id, content, completed)) {
+      setState(() {
+        // task.content = content;
+        // Provider.of<TasksCollection>(context, listen: false).update(taskToUpdate, content);
+      });
+    } else {
+      showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Error'),
+          content: const Text(
+              'Cant modify added task because its not really added. the server return 500 error'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'Cancel'),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'OK'),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   @override
@@ -56,7 +74,7 @@ class _OneTaskState extends State<OneTask> {
           ),
           TaskForm(
             submitForm: (value) {
-              _updateTask(task, value);
+              _updateTask(task.id, value, task.completed);
             },
             buttonText: "Update Task",
           ),
@@ -71,9 +89,7 @@ class _OneTaskState extends State<OneTask> {
                 Switch(
                   value: task.completed,
                   onChanged: (value) {
-                    setState(() {
-                      task.completed = value;
-                    });
+                    _updateTask(task.id, task.content, value);
                   },
                 ),
               ],

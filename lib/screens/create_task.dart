@@ -14,19 +14,20 @@ class CreateTask extends StatefulWidget {
 }
 
 class _CreateTaskState extends State<CreateTask> {
-  void _addTask(String content, BuildContext context) {
-    setState(() {
-      Task newTask = Task(context.read<TasksCollection>().tasks.length + 1,
-          content, false, DateTime.now());
+  Future<void> _addTask(String content, BuildContext context) async {
+    Task newTask = Task(context.read<TasksCollection>().tasks.length + 1,
+        content, false, DateTime.now());
 
-      context.read<TasksCollection>().create(newTask);
-
+    if (await context.read<TasksCollection>().create(newTask)) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Task created!"),
       ));
 
       Navigator.pop(context);
-    });
+    }
+
+    
+
   }
 
   @override
