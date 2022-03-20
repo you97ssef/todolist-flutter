@@ -28,6 +28,9 @@ dev_dependencies:
 
 flutter:
 
+  assets:
+    - assets/config.json
+
   uses-material-design: true
 
   fonts:
