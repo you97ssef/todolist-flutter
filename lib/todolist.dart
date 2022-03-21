@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:todolist/screens/all_tasks.dart';
-
 import 'screens/create_task.dart';
 import 'screens/one_task.dart';
-// import 'package:todolist/models/task.dart';
+// import 'package:todolist/models/task.dart'; // for fake data
 
 class TodoList extends StatelessWidget {
-  // final List<Task> tasks;
+  // final List<Task> tasks; // for fake data
+
   const TodoList({
     Key? key,
-    /* required this.tasks */
+    /* required this.tasks */ // for fake data
   }) : super(key: key);
 
   @override
@@ -21,7 +21,7 @@ class TodoList extends StatelessWidget {
       ),
       home: const AllTasks(
         title: 'Todo List',
-        // tasks: tasks,
+        // tasks: tasks, // for fake data
       ),
       routes: {
         AllTasks.route: (context) => const AllTasks(title: 'Todo List'),

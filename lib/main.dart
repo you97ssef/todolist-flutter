@@ -7,20 +7,22 @@ import 'todolist.dart';
 // import 'package:todolist/models/task.dart';
 
 main() async {
+  /* for fake data 
   // List<Task> tasks = await TasksCollection.getTasksFromApi();
   // runApp(TodoList(
   //   tasks: tasks,
   // ));
+  */
 
   WidgetsFlutterBinding.ensureInitialized();
 
+  // getting data from the config file
   var config = json.decode(await rootBundle.loadString('assets/config.json'));
-  
+
   runApp(
     ChangeNotifierProvider(
       create: (context) => TasksCollection(tasks: [], apiUrl: config['apiUrl']),
-      // child: TodoList(tasks: tasks),
-      child: const TodoList(/*tasks: tasks*/),
+      child: const TodoList(/* tasks: tasks */),
     ),
   );
 }

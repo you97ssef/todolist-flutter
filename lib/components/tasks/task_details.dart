@@ -2,43 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:todolist/models/task.dart';
 
 class TaskDetails extends StatelessWidget {
-  /*
-  late Task task;
-  late Function(Task) newTaskPressed;
-
-  Task newTask() {
-    return Task(Random().nextInt(10000), faker.lorem.sentence(),
-        RandomGenerator().boolean(), DateTime.now());
-  }
-
-  TaskDetails({
-    required this.newTaskPressed,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: () {
-        newTaskPressed.call(newTask());
-      },
-      tooltip: 'Increment',
-      child: const Icon(Icons.add),
-    );
-  }
-  */
-
   final Task task;
   final Function() closeClicked;
   final Function() deleteClicked;
   final Function() updateClicked;
 
-  const TaskDetails(
-      {Key? key,
-      required this.task,
-      required this.closeClicked,
-      required this.deleteClicked,
-      required this.updateClicked})
-      : super(key: key);
+  const TaskDetails({
+    Key? key,
+    required this.task,
+    required this.closeClicked,
+    required this.deleteClicked,
+    required this.updateClicked,
+  }) : super(key: key);
+
+  _button(Color color, String label, Function onPressed) {
+    return ElevatedButton.icon(
+      style: TextButton.styleFrom(
+        backgroundColor: color,
+      ),
+      onPressed: onPressed(),
+      icon: const Icon(Icons.update),
+      label: Text(label),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,22 +44,8 @@ class TaskDetails extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              ElevatedButton.icon(
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.yellow,
-                ),
-                onPressed: updateClicked,
-                icon: const Icon(Icons.update),
-                label: const Text("Update"),
-              ),
-              ElevatedButton.icon(
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.red,
-                ),
-                onPressed: deleteClicked,
-                icon: const Icon(Icons.delete),
-                label: const Text("Delete"),
-              ),
+              _button(Colors.yellow, 'Update', updateClicked),
+              _button(Colors.red, 'Delete', deleteClicked),
               TextButton(
                 child: const Icon(Icons.close),
                 onPressed: closeClicked,

@@ -14,20 +14,27 @@ class CreateTask extends StatefulWidget {
 }
 
 class _CreateTaskState extends State<CreateTask> {
+  // Add a new Task
   Future<void> _addTask(String content, BuildContext context) async {
-    Task newTask = Task(context.read<TasksCollection>().tasks.length + 1,
-        content, false, DateTime.now());
+    Task newTask = Task(
+      context.read<TasksCollection>().tasks.length + 1,
+      content,
+      false,
+      DateTime.now(),
+    );
 
     if (await context.read<TasksCollection>().create(newTask)) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Task created!"),
-      ));
+      // if the task is added in the api
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Task created!'),
+        ),
+      );
 
+      // Return to the main page
       Navigator.pop(context);
     }
-
-    
-
   }
 
   @override
@@ -35,7 +42,7 @@ class _CreateTaskState extends State<CreateTask> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "New Task",
+          'New Task',
           style: TextStyle(fontFamily: 'ShadowsIntroLight'),
         ),
       ),
@@ -55,7 +62,7 @@ class _CreateTaskState extends State<CreateTask> {
             submitForm: (value) {
               _addTask(value, context);
             },
-            buttonText: "Add new Task",
+            buttonText: 'Add new Task',
           ),
         ]),
       ),

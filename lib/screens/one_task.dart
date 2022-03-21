@@ -14,51 +14,39 @@ class OneTask extends StatefulWidget {
 }
 
 class _OneTaskState extends State<OneTask> {
-  late Task task;
-  late bool completed;
+  late Task task; // selected task.
 
   @override
   void initState() {
     super.initState();
   }
 
+  // Update a task
   void _updateTask(int id, String content, bool completed) async {
     if (await context.read<TasksCollection>().update(id, content, completed)) {
+      // if task is updated in the api
+      
+      // return to the main page
+      // Navigator.pop(context);
+
       setState(() {
+        /* for fake data
         // task.content = content;
         // Provider.of<TasksCollection>(context, listen: false).update(taskToUpdate, content);
+        */
       });
-    } else {
-      showDialog<String>(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: const Text('Error'),
-          content: const Text(
-              'Cant modify added task because its not really added. the server return 500 error'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context, 'Cancel'),
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(context, 'OK'),
-              child: const Text('OK'),
-            ),
-          ],
-        ),
-      );
-    }
+    } 
   }
 
   @override
   Widget build(BuildContext context) {
-    task = ModalRoute.of(context)!.settings.arguments as Task;
+    task = ModalRoute.of(context)!.settings.arguments as Task; // get the task passed in the arguments
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text(
-          "Update Task",
+          'Update Task',
           style: TextStyle(fontFamily: 'ShadowsIntroLight'),
         ),
       ),
@@ -76,7 +64,7 @@ class _OneTaskState extends State<OneTask> {
             submitForm: (value) {
               _updateTask(task.id, value, task.completed);
             },
-            buttonText: "Update Task",
+            buttonText: 'Update Task',
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),

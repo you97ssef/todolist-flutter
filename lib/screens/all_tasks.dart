@@ -6,55 +6,55 @@ import 'package:todolist/screens/create_task.dart';
 // import 'package:todolist/models/task.dart';
 
 class AllTasks extends StatefulWidget {
-  // final List<Task> tasks;
+  // final List<Task> tasks; // for fake data
   const AllTasks({
     Key? key,
     required this.title,
-    /* required this.tasks */
+    // required this.tasks, // for fake data
   }) : super(key: key);
 
   final String title;
 
-  static String route = "/all_tasks";
+  static String route = '/all_tasks';
 
   @override
   State<AllTasks> createState() => _AllTasksState();
 }
 
 class _AllTasksState extends State<AllTasks> {
-  // late List<Task> tasks = context.watch<TasksCollection>().tasks;
-
   @override
   void initState() {
     super.initState();
+    /* for fake data
     // tasks = widget.tasks;
     // tasks = context.read<TasksCollection>().tasks;
+    */
   }
 
   TaskMaster? tasksViewer;
 
   showTasks() {
-    if(context.read<TasksCollection>().gotApiData){
+    if (context.read<TasksCollection>().gotApiData) {
       return TaskMaster(tasks: context.read<TasksCollection>().tasks);
     }
 
     return FutureBuilder(
-            future: context.read<TasksCollection>().getTasksFromApi(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.hasData) {
-                return TaskMaster(tasks: snapshot.data);
-              } else {
-                return Center(
-                  child: SizedBox(
-                    width: 60,
-                    height: 60,
-                    child: CircularProgressIndicator(
-                      color: Colors.red[900],
-                    ),
-                  ),
-                );
-              }
-            });
+        future: context.read<TasksCollection>().getTasksFromApi(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            return TaskMaster(tasks: snapshot.data);
+          } else {
+            return Center(
+              child: SizedBox(
+                width: 60,
+                height: 60,
+                child: CircularProgressIndicator(
+                  color: Colors.red[900],
+                ),
+              ),
+            );
+          }
+        });
   }
 
   @override

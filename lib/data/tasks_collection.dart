@@ -7,13 +7,16 @@ class TasksCollection extends ChangeNotifier {
   final String apiUrl;
   bool gotApiData = false;
 
-  TasksCollection({required this.tasks, required this.apiUrl});
+  TasksCollection({
+    required this.tasks,
+    required this.apiUrl,
+  });
 
   Future<bool> create(Task newTask) async {
-    // tasks.add(newTask);
-    // notifyListeners();
-
-    var response = await Dio().post(apiUrl, data: newTask.toJson());
+    var response = await Dio().post(
+      apiUrl,
+      data: newTask.toJson(),
+    );
 
     if (response.statusCode == 201) {
       tasks.add(Task.fromJson(response.data));

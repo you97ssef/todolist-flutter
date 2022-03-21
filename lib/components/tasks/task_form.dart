@@ -4,7 +4,8 @@ class TaskForm extends StatefulWidget {
   final Function(String content) submitForm;
   final String buttonText;
 
-  const TaskForm({ Key? key, required this.submitForm, required this.buttonText }) : super(key: key);
+  const TaskForm({Key? key, required this.submitForm, required this.buttonText})
+      : super(key: key);
 
   @override
   State<TaskForm> createState() => _TaskFormState();
