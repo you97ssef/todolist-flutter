@@ -15,13 +15,13 @@ class TaskDetails extends StatelessWidget {
     required this.updateClicked,
   }) : super(key: key);
 
-  _button(Color color, String label, Function onPressed) {
+  _button(Color color, String label, IconData icon, onPressed) {
     return ElevatedButton.icon(
       style: TextButton.styleFrom(
         backgroundColor: color,
       ),
-      onPressed: onPressed(),
-      icon: const Icon(Icons.update),
+      onPressed: onPressed,
+      icon: Icon(icon),
       label: Text(label),
     );
   }
@@ -44,8 +44,18 @@ class TaskDetails extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              _button(Colors.yellow, 'Update', updateClicked),
-              _button(Colors.red, 'Delete', deleteClicked),
+              _button(
+                Colors.yellow,
+                'Update',
+                Icons.update,
+                updateClicked,
+              ),
+              _button(
+                Colors.red,
+                'Delete',
+                Icons.delete,
+                deleteClicked,
+              ),
               TextButton(
                 child: const Icon(Icons.close),
                 onPressed: closeClicked,
